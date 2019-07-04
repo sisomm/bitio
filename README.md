@@ -1,4 +1,5 @@
 # bitio - A Micro:bit IO device
+# paho-mqtt fork
 
 ## What is this?
 
@@ -6,6 +7,15 @@ bitio (pronounced bitty-o) is a micro:bit I/O library for Python.
 It allows you to run code in Python on a PC/Mac/Linux/Raspberry Pi
 and interact directly with the micro:bit. It works with both Python 2 and
 with Python 3 on Mac, PC, Raspberry Pi and Linux.
+
+This fork adds a python script mqtt.py
+It posts the status of the sensors and buttons to an mqtt 
+topic, and listens for commands on the subtopic /incoming
+
+The script accepts mqtt host and base topic as parameters. The subtopics are then named after
+the various methods in the python API.
+
+The defaults are localhost and /microbit/0
 
 ![bitio logo](bitio.png)
 
