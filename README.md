@@ -16,6 +16,7 @@ The script accepts mqtt host and base topic as parameters. The subtopics are the
 the various methods in the python API.
 
 The defaults are localhost and /microbit/0
+No security features are implemented at this time
 
 ![bitio logo](bitio.png)
 
