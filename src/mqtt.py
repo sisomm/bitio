@@ -1,6 +1,8 @@
 # (c) Simen Sommerfeldt, @sisomm, simen.sommerfeldt@gmail.com Licensed as CC-BY-SA 
-import os, serial, time
+import time
+import os
 import argparse
+import json
 import paho.mqtt.client as paho
 import microbit	
 
@@ -17,25 +19,19 @@ def on_message(mosq, obj, msg):
         print("Message received on topic "+msg.topic+" with payload "+msg.payload)
 
 
-print("REPORTER: Connecting")
+print("Connecting")
 mypid = os.getpid()
-client = paho.Client("arduino_report_"+str(mypid))
+client = paho.Client("microbit_"+str(mypid))
 client.connect(args.server)
 client.on_message = on_message
+client.loop_start()
 
 try:
     while True:
-        response = arduino.readline()
-        if(len(response)>0):
-            if(args.verbosity>0):
-                print("REPORTER: Arduino says:"+response.strip())
-            if(response.startswith("Ping")):
-                topic=sonarTopic
-            else:
-                topic=remoteTopic
-
-            client.publish(topic,response.strip() ,0)
+	    acctopic=args.topic+"/accelerometer"
+	    print(json.dumps(microbit.accelerometer.get_values()))
+            client.publish(acctopic,json.dumps(microbit.accelerometer.get_values()) ,0)
+	    time.sleep(0.1)
 
 except KeyboardInterrupt:
-    print "Interrupt received"
-    arduino.close()
+    client.loop_stop()
