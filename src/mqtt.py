@@ -28,10 +28,15 @@ client.loop_start()
 
 try:
     while True:
-	    acctopic=args.topic+"/accelerometer"
-	    print(json.dumps(microbit.accelerometer.get_values()))
-            client.publish(acctopic,json.dumps(microbit.accelerometer.get_values()) ,0)
-	    time.sleep(0.1)
+        buttontopic=args.topic+"/button_pressed"
+	if microbit.button_a.was_pressed():
+            client.publish(buttontopic,"a",0)
+	if microbit.button_b.was_pressed():
+            client.publish(buttontopic,"b",0)
+
+	acctopic=args.topic+"/accelerometer"
+        client.publish(acctopic,json.dumps(microbit.accelerometer.get_values()) ,0)
+	time.sleep(0.1)
 
 except KeyboardInterrupt:
     client.loop_stop()
